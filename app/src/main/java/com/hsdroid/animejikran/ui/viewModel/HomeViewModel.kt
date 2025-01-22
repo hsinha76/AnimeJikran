@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(private val topAnimeRepository: TopAnime
         getTopAnime()
     }
 
-    private fun getTopAnime() = viewModelScope.launch {
+    fun getTopAnime() = viewModelScope.launch {
         topAnimeRepository.callTopAnime()
             .onStart {
                 _topAnimeResponse.value = APIState.LOADING

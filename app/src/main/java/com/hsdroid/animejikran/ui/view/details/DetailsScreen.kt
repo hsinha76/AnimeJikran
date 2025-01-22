@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -72,12 +73,25 @@ fun DetailsScreen(receivedId: String, detailsViewModel: DetailsViewModel = hiltV
         when (val detailsResponse = responseState) {
             APIState.LOADING -> CircularProgressIndicator()
             is APIState.FAILURE -> {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = detailsResponse.t.message ?: "Something went wrong",
-                    color = Color.Red,
-                    textAlign = TextAlign.Center
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = detailsResponse.t.message ?: "Something went wrong",
+                        color = Color.Red,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Button(onClick = {
+                        detailsViewModel.getAnimeDetails(receivedId)
+                    }) {
+                        Text(text = "Retry")
+                    }
+                }
             }
 
             is APIState.SUCCESS -> {
